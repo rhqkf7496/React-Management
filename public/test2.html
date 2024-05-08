@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Manual File Upload with Dropzone</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="my-awesome-dropzone" class="dropzone"></div>
+    <button id="submit-all">Upload Files</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.js"></script>
+    <script>
+      // Dropzone configuration
+      Dropzone.options.myAwesomeDropzone = {
+        url: "/upload", // 서버 업로드 처리 URL
+        autoProcessQueue: false, // 파일을 자동으로 업로드하지 않음
+        uploadMultiple: true, // 여러 파일 동시 업로드 허용
+        parallelUploads: 100, // 한 번에 업로드할 파일의 최대 수
+        maxFiles: 100, // 최대 파일 수
+        dictDefaultMessage: "Drop files here to upload",
+        addRemoveLinks: true, // 업로드 후 파일 삭제버튼 표시 여부
+        dictRemoveFile: "❌", // 삭제버튼 표시 텍스트
+        // Dropzone 이벤트 리스너 추가
+        init: function () {
+          var myDropzone = this;
+          // "Upload Files" 버튼 클릭 이벤트 핸들러
+          document
+            .getElementById("submit-all")
+            .addEventListener("click", function () {
+              console.log(myDropzone.files);
+              // 파일 업로드 처리 시작
+              myDropzone.processQueue();
+            });
+          // 모든 파일 업로드가 완료되면 호출됨
+          this.on("complete", function () {
+            if (
+              this.getUploadingFiles().length === 0 &&
+              this.getQueuedFiles().length === 0
+            ) {
+              console.log("All files have been uploaded");
+            }
+          });
+        },
+      };
+    </script>
+  </body>
+</html>

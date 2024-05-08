@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css"
+    />
+
+    <link rel="stylesheet" href="test.css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <style>
+      .list-unstyled {
+        min-height: 0 !important; /* 기본 높이 설정 */
+        max-height: 300px;
+        overflow: auto; /* 내용이 더 있어도 높이는 0으로 유지 */
+      }
+    </style>
+  </head>
+
+  <body class="m-4">
+    <form method="post" id="insert_form">
+      <input type="hidden" name="id" id="id" class="form-control" value="" />
+      <input
+        type="hidden"
+        name="action"
+        id="action"
+        value="insert"
+        class="form-control"
+      />
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card-body">
+            <div class="form-group row">
+              <label for="inputVal" class="col-sm-1 col-form-label"
+                >*사고번호</label
+              >
+              <div class="col-sm-2">
+                <input
+                  type="text"
+                  name="ir_no"
+                  id="ir_no"
+                  value=""
+                  placeholder="IR20240101-001"
+                  title="ex) IR20240101-001 or IF20240101-001"
+                  class="form-control"
+                  autofocus=""
+                />
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="inputVal" class="col-sm-1 col-form-label"
+                >검토자(정)</label
+              >
+              <div class="col-sm-2">
+                <input
+                  type="text"
+                  name="confirm1"
+                  id="confirm1"
+                  value=""
+                  class="form-control"
+                />
+              </div>
+
+              <label for="inputVal" class="col-sm-1 col-form-label"
+                >검토자(부)</label
+              >
+              <div class="col-sm-2">
+                <input
+                  type="text"
+                  name="confirm2"
+                  id="confirm2"
+                  value=""
+                  class="form-control"
+                />
+              </div>
+
+              <label for="inputVal" class="col-sm-1 col-form-label">상태</label>
+              <div class="col-sm-2">
+                <select
+                  class="custom-select"
+                  name="status"
+                  id="status"
+                  style="border-radius: 0.25rem"
+                >
+                  <option value=""></option>
+                  <option value="검토">검토</option>
+                  <option value="수정">수정</option>
+                  <option value="완료">완료</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="inputVal" class="col-sm-1 col-form-label"
+                >*제목</label
+              >
+              <div class="col-sm-11">
+                <input
+                  type="text"
+                  name="subject"
+                  id="subject"
+                  value=""
+                  placeholder="제목을 입력하세요."
+                  class="form-control"
+                />
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="inputVal" class="col-sm-1 col-form-label">메모</label>
+              <div class="col-sm-11">
+                <textarea
+                  name="memo"
+                  id="memo"
+                  class="form-control"
+                  placeholder="Place some text here"
+                  style="
+                    width: 100%;
+                    height: 300px;
+                    font-size: 14px;
+                    line-height: 18px;
+                  "
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="inputVal" class="col-sm-1 col-form-label"
+                >첨부파일</label
+              >
+              <div class="col-sm-11">
+                <div class="dropzone">
+                  <!-- 포스팅 - 이미지/동영상 dropzone 영역 -->
+                  <ul
+                    class="list-unstyled mb-0"
+                    id="dropzone-preview"
+                    style="overflow: auto; min-height: 150px "
+                  >
+                    <li class="mt-2" id="dropzone-preview-list">
+                      <!-- This is used as the file preview template -->
+                      <div class="border rounded-3">
+                        <div class="d-flex align-items-center p-2">
+                          <div class="flex-shrink-0 me-3"></div>
+
+                          <div class="flex-grow-1">
+                            <div class="pt-1" style="text-align: left">
+                              <h6
+                                class="font-semibold mb-1"
+                                data-dz-name="data-dz-name"
+                              >
+                                &nbsp;
+                              </h6>
+                              <p
+                                class="text-sm text-muted fw-normal"
+                                data-dz-size="data-dz-size"
+                              ></p>
+                              <strong
+                                class="error text-danger"
+                                data-dz-errormessage="data-dz-errormessage"
+                              ></strong>
+                            </div>
+                          </div>
+                          <div class="shrink-0 ms-3">
+                            <button
+                              data-dz-remove="data-dz-remove"
+                              class="btn btn-sm btn-danger"
+                            >
+                              삭제
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm float-right ml-2"
+                onclick="send()"
+                id="saveBtn"
+              >
+                <i class="fas fa-edit"></i> ✅ Save</button
+              ><button
+                type="button"
+                class="btn btn-default btn-sm float-right ml-2"
+                onclick="window.location='\./';"
+              >
+                <i class="fas fa-angle-left"></i> < List
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <script>
+      Dropzone.autoDiscover = false;
+      var dropzonePreviewNode = document.querySelector(
+        "#dropzone-preview-list"
+      );
+      dropzonePreviewNode.id = "";
+      var previewTemplate = dropzonePreviewNode.parentNode.innerHTML;
+      dropzonePreviewNode.parentNode.removeChild(dropzonePreviewNode);
+
+      const dropzone = new Dropzone(".dropzone", {
+        url: "https://httpbin.org/post", // 파일을 업로드할 서버 주소 url.
+        method: "post", // 기본 post로 request 감. put으로도 할수있음
+
+        previewTemplate: previewTemplate, // 만일 기본 테마를 사용하지않고 커스텀 업로드 테마를 사용하고 싶다면
+        previewsContainer: "#dropzone-preview", // 드롭존 영역을 .dropzone이 아닌 다른 엘리먼트에서 하고싶을때
+        dictDefaultMessage: "업로드할 파일을 여기에 드롭하세요.",
+      });
+    </script>
+
+    <!-- <script>
+      // 폼 제출 시 유효성 검사
+      $(document).ready(function(){
+        $('#saveBtn').on('click', function(event) {
+          var ir_noField = $("#ir_no").val();
+          var subjectField = $("#subject").val();
+
+          if (ir_noField.trim() === "") {
+            ir_noField.setCustomValidity("사고번호를 입력하세요.");
+          } else {
+            ir_noField.setCustomValidity("");
+          }
+
+          if (subjectField.trim() === "") {
+            subjectField.setCustomValidity("제목을 입력하세요.");
+          } else {
+            subjectField.setCustomValidity("");
+          }
+        });
+      });
+    </script> -->
+
+    <script>
+      function send() {
+        let formData = new FormData();
+
+        // 파일 업로드를 위한 Dropzone 객체
+        let dropzoneFiles = dropzone.getAcceptedFiles();
+
+        // 파일 데이터 FormData에 추가
+        for (let i = 0; i < dropzoneFiles.length; i++) {
+          formData.append("file" + i, dropzoneFiles[i]);
+        }
+
+        formData.append("ir_no", $("#ir_no").val());
+        formData.append("confirm1", $("#confirm1").val());
+        formData.append("confirm2", $("#confirm2").val());
+        formData.append("subject", $("#subject").val());
+        formData.append("memo", $("#memo").val());
+
+        let statusSelect = $("#status option:selected").val();
+        formData.append("status", statusSelect);
+
+
+        $.ajax({
+          type: "",
+          dataType: "json",
+          contentType: "application/json; charset=UTF-8;",
+          data: formData,
+          url: "/board/report_sample/insert.html",
+          success: function (result) {
+            if (result == 1) {
+              location.reload(true);
+            } else {
+              console.log("업로드 실패..");
+            }
+          },
+        });
+      }
+
+      dropzone.on("addedfile", function (file) {
+        // do something
+        console.log("추가");
+        console.log(dropzone.getAcceptedFiles().length);
+
+        var ul = document.getElementById("dropzone-preview");
+        var listItems = ul.getElementsByTagName("li");
+
+        if (listItems.length == 0) {
+          $(".dz-default").show();
+        } else {
+          $(".dz-default").hide();
+        }
+      });
+
+      dropzone.on("removedfile", function (file) {
+        // do something
+        var ul = document.getElementById("dropzone-preview");
+        var listItems = ul.getElementsByTagName("li");
+
+        if (listItems.length == 0) {
+          $(".dz-default").show();
+        } else {
+          $(".dz-default").hide();
+        }
+      });
+    </script>
+  </body>
+</html>
